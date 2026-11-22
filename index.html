@@ -69,9 +69,28 @@
   populateVoiceMenu();
   if('speechSynthesis' in window)window.speechSynthesis.addEventListener?.('voiceschanged',populateVoiceMenu);
   els.testVoice.addEventListener('click',()=>say('that',0.29));
+  const theRecording=new Audio('the.mp3');
+  theRecording.preload='auto';
+  let playbackId=0;
+  function stopAudio(){
+    playbackId++;
+    theRecording.pause();
+    theRecording.currentTime=0;
+    if('speechSynthesis' in window)window.speechSynthesis.cancel();
+  }
   function say(word,rate=0.29){
+    stopAudio();
+    const id=playbackId;
+    if(word.trim().toLowerCase()==='the'){
+      theRecording.playbackRate=rate<=.15?.5:1;
+      theRecording.preservesPitch=true;
+      const failed=()=>{if(id===playbackId)els.status.textContent='The recording could not play. Check your sound and tap Hear the word again.'};
+      theRecording.onerror=failed;
+      try{const playing=theRecording.play();if(playing)playing.catch(failed);els.status.textContent=rate<=.15?'Listen to the extra-slow pronunciation.':'Now say the word out loud!'}catch(e){failed()}
+      return;
+    }
     if(!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window)){els.support.style.display='block';els.status.textContent='This browser cannot speak words aloud.';return}
-    try{window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(word.trim().toLowerCase()==='the'?'thuh':word);u.lang='en-US';u.rate=rate;u.pitch=1;const voice=chooseVoice();if(voice)u.voice=voice;u.onerror=()=>{els.status.textContent='Audio was not available. Check tablet sound settings or try Chrome.';els.support.style.display='block'};window.speechSynthesis.speak(u);els.status.textContent=rate<=.15?'Listen to the extra-slow pronunciation.':'Now say the word out loud!'}catch(e){els.support.style.display='block';els.status.textContent='Speech is not available on this browser.'}
+    try{const u=new SpeechSynthesisUtterance(word);u.lang='en-US';u.rate=rate;u.pitch=1;const voice=chooseVoice();if(voice)u.voice=voice;u.onerror=e=>{if(id!==playbackId||e.error==='canceled'||e.error==='interrupted')return;els.status.textContent='Audio was not available. Check tablet sound settings or try Chrome.';els.support.style.display='block'};window.speechSynthesis.speak(u);els.status.textContent=rate<=.15?'Listen to the extra-slow pronunciation.':'Now say the word out loud!'}catch(e){els.support.style.display='block';els.status.textContent='Speech is not available on this browser.'}
   }
   function render(){
     const index=Math.max(0,Math.min(position,words.length-1));position=index;const current=words[index];const count=completed.size;
@@ -81,7 +100,7 @@
     els.reveal.hidden=mode==='learn'||revealed;els.done.textContent=completed.has(index)?'✅ Practiced!':'⭐ I said it!';els.learn.classList.toggle('active',mode==='learn');els.quiz.classList.toggle('active',mode==='quiz');els.learn.setAttribute('aria-pressed',String(mode==='learn'));els.quiz.setAttribute('aria-pressed',String(mode==='quiz'));
     els.grid.innerHTML='';words.forEach((w,i)=>{const b=document.createElement('button');b.type='button';b.className='tile'+(i===index?' selected':'')+(completed.has(i)?' done':'');b.setAttribute('aria-label',`Practice the word ${w}`);b.textContent=w;const small=document.createElement('small');small.textContent=String(i+1);b.append(small);b.addEventListener('click',()=>{position=i;revealed=mode==='learn';render();say(w)});els.grid.append(b)});
   }
-  const update=i=>{position=(i+words.length)%words.length;revealed=mode==='learn';render();els.status.textContent='Tap Hear the word to listen.'};
+  const update=i=>{stopAudio();position=(i+words.length)%words.length;revealed=mode==='learn';render();els.status.textContent='Tap Hear the word to listen.'};
   els.hear.addEventListener('click',()=>say(words[position]));els.slow.addEventListener('click',()=>say(words[position],.145));
   els.reveal.addEventListener('click',()=>{revealed=true;render();say(words[position])});
   els.done.addEventListener('click',()=>{completed.add(position);render();els.status.textContent=completed.size===words.length?'Amazing! You practiced every word! 🎉':'Great job! Keep going! 🌟'});
