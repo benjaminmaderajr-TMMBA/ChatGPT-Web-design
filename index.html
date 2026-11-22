@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#5f4bdb">
+  <meta name="description" content="A free, playful listen-and-repeat word practice page with nine sight words.">
+  <title>My Word Garden - Listen & Learn</title>
+  <style>
+    :root{--ink:#242044;--muted:#625d7b;--violet:#6450dc;--violet2:#edeaff;--pink:#ff77a5;--cream:#fffdf6;--line:#e9e6f4;--green:#197654;--panel:#fff;--shadow:0 12px 30px rgba(55,41,99,.10)}
+    *{box-sizing:border-box}html{font-family:ui-rounded,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;scroll-behavior:smooth}body{margin:0;color:var(--ink);background:radial-gradient(circle at 0% 0%,#f0e9ff 0,transparent 38%),radial-gradient(circle at 95% 10%,#fff0cc 0,transparent 35%),#f9f9ff;min-height:100vh}
+    button,input,textarea{font:inherit}button{cursor:pointer;touch-action:manipulation}button:focus-visible,textarea:focus-visible{outline:4px solid #e7ad29;outline-offset:3px}
+    .wrap{width:min(1010px,calc(100% - 32px));margin:auto}.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:22px 0 12px}.logo{font-size:clamp(19px,3.8vw,26px);font-weight:850;letter-spacing:-.6px}.logo span{font-size:25px}.pill{border-radius:99px;background:#fff;padding:9px 13px;font-size:13px;font-weight:750;color:var(--violet);box-shadow:0 3px 12px #6450dc12}
+    .hero{text-align:center;padding:12px 0 22px}.hero h1{font-size:clamp(30px,6vw,46px);line-height:1.12;letter-spacing:-1.3px;margin:6px 0 12px}.hero p{margin:0 auto;color:var(--muted);font-size:clamp(15px,2.6vw,18px);max-width:600px;line-height:1.5}
+    .mode-switch{display:flex;width:min(440px,100%);gap:7px;padding:6px;background:#eae7fa;border-radius:20px;margin:22px auto 0}.mode-switch button{width:50%;min-height:47px;border:0;background:transparent;color:#4e466e;font-weight:800;border-radius:15px}.mode-switch button.active{background:#fff;color:var(--violet);box-shadow:0 3px 12px #4c409e21}
+    .workspace{background:white;border:1px solid #efedf8;border-radius:29px;padding:clamp(18px,4vw,32px);box-shadow:var(--shadow);position:relative;overflow:hidden}.workspace:before{content:"";position:absolute;width:180px;height:180px;border-radius:50%;right:-100px;top:-110px;background:#f0edff}.workspace > *{position:relative}.stats{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:14px;color:var(--muted);font-weight:750}.track{background:#eeebfa;height:12px;border-radius:50px;overflow:hidden;margin:13px 0 17px}.fill{background:linear-gradient(90deg,#7c5af0,#e677af);height:100%;width:0%;transition:width .35s ease;border-radius:50px}.word-wrap{text-align:center;min-height:224px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 0 12px}.tiny-label{font-size:13px;text-transform:uppercase;letter-spacing:2px;color:#73698b;font-weight:850}.word{font-size:clamp(76px,17vw,143px);font-weight:900;letter-spacing:-5px;line-height:1.1;margin:12px 0 4px;color:#5642cc;overflow-wrap:anywhere}.hidden-word{font-size:clamp(32px,7vw,58px);letter-spacing:1px;color:#9a90c9;margin:30px 0 20px}.subtitle{color:var(--muted);font-size:16px;max-width:420px;line-height:1.5}.actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;width:min(610px,100%);margin:8px auto}.action{border:0;border-radius:19px;padding:17px 12px;font-weight:850;min-height:69px;font-size:clamp(15px,2.7vw,18px);display:flex;justify-content:center;align-items:center;gap:9px}.primary{background:var(--violet);color:white;box-shadow:0 5px 0 #4634a8}.secondary{background:#f0ecff;color:#4f40ad}.reveal{background:#fff3dc;color:#8f550d}.success{background:#dcf8ed;color:#166347}.action:active{transform:translateY(2px)}.action:active.primary{box-shadow:0 3px 0 #4634a8}.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:22px}.nav button{background:#faf9ff;border:1px solid #e7e3f4;border-radius:16px;min-height:53px;padding:12px 20px;font-weight:800;color:#5445af}.nav .next{background:#fce5ed;border-color:#fbd0df;color:#9a3463}.hint{font-size:13px;line-height:1.5;text-align:center;color:#6f6883;margin:16px 0 0}
+    .section-header{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:30px 0 13px}.section-header h2{font-size:22px;margin:0}.section-header span{font-size:13px;color:#777089}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.tile{position:relative;min-height:111px;padding:15px 12px;border-radius:19px;background:#fff;border:2px solid #eae7f3;box-shadow:0 6px 14px #57498c0a;color:#33295a;font-size:clamp(24px,6vw,42px);font-weight:850;display:flex;justify-content:center;align-items:center}.tile.selected{border-color:#7660eb;background:#f2efff}.tile.done:after{content:"✓";position:absolute;right:8px;top:7px;width:24px;height:24px;display:grid;place-items:center;font-size:14px;color:white;background:#27a079;border-radius:50%}.tile small{position:absolute;left:12px;bottom:8px;font-size:11px;color:#857cad;font-weight:650}.foot{text-align:center;color:var(--muted);font-size:13px;line-height:1.6;padding:26px 0 18px}.parent{margin:24px 0 0;padding:16px 20px;background:#fff;border:1px solid #eae7f4;border-radius:20px}.parent summary{cursor:pointer;font-weight:800;color:#594c93}.parent p{font-size:14px;color:#625d7b;line-height:1.5}.parent textarea{width:100%;min-height:80px;padding:12px;border:1px solid #cbc7e2;border-radius:12px;resize:vertical}.parent .smallbutton{margin-top:10px;background:#6450dc;color:white;border:0;border-radius:12px;padding:12px 17px;font-weight:800}.parent .ghost{background:#f2f0fc;color:#5848ad;margin-left:8px}.support{border-radius:12px;padding:12px 14px;background:#fff8e9;color:#79541e;font-size:13px;line-height:1.5;margin:8px 0;display:none}#status{min-height:18px}
+    @media(min-width:720px){.grid{grid-template-columns:repeat(9,minmax(0,1fr))}.tile{min-height:91px;font-size:clamp(20px,2.6vw,28px);padding:9px 2px}.tile small{left:6px;bottom:6px}.tile.done:after{right:3px;top:3px;width:19px;height:19px}}
+    @media(max-width:420px){.nav button{padding:10px 14px}.word{letter-spacing:-3px}.workspace{border-radius:24px}.actions{gap:8px}.action{padding:14px 5px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto !important;transition:none !important}}
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="topbar"><div class="logo"><span aria-hidden="true">🌸</span> My Word Garden</div><div class="pill">Listen • Say • Learn</div></header>
+    <section class="hero"><h1>Let's grow your word power! ✨</h1><p>Tap a word, listen carefully, and say it out loud. You're doing great!</p><div class="mode-switch" role="group" aria-label="Practice mode"><button type="button" id="learnMode" class="active" aria-pressed="true">📖 Learn words</button><button type="button" id="quizMode" aria-pressed="false">🎧 Listening game</button></div></section>
+    <section class="workspace" aria-label="Word practice area">
+      <div class="stats"><span id="counter">Word 1 of 9</span><span id="stars" aria-live="polite">0 of 9 practiced ⭐</span></div><div class="track" role="progressbar" aria-label="Words practiced" aria-valuemin="0" aria-valuemax="9" aria-valuenow="0" id="track"><div class="fill" id="fill"></div></div>
+      <div class="word-wrap"><div class="tiny-label" id="modeLabel">Look, listen, repeat!</div><div class="word" id="word" aria-live="polite">that</div><div class="subtitle" id="prompt">Tap the purple button to hear this word.</div></div>
+      <div class="actions"><button class="action primary" id="hear" type="button">🔊 Hear the word</button><button class="action secondary" id="slow" type="button">🐢 Say it slowly</button><button class="action reveal" id="reveal" type="button" hidden>👀 Show the word</button><button class="action success" id="done" type="button">⭐ I said it!</button></div>
+      <div class="nav"><button id="prev" type="button" aria-label="Previous word">← Previous</button><button id="again" type="button">↻ Start over</button><button class="next" id="next" type="button">Next →</button></div>
+      <p class="hint" id="status" aria-live="polite">Sound comes from your device's voice. Make sure the volume is on.</p>
+      <div class="support" id="support">This browser might not support spoken words. Try a recent version of Chrome or Edge, or a different tablet browser.</div>
+    </section>
+    <section aria-label="All words"><div class="section-header"><h2>My word cards</h2><span>Tap any card to hear it</span></div><div class="grid" id="grid"></div></section>
+    <details class="parent"><summary>⚙️ Grown-up settings — change the word list</summary><p>Enter up to 30 words, separated by commas or new lines. Your words are saved only in this browser on this device. No account is needed.</p><label for="list">Practice words</label><textarea id="list" spellcheck="false">that, the, of, you, my, in, to, is, and</textarea><div><button class="smallbutton" id="saveWords" type="button">Save these words</button><button class="smallbutton ghost" id="restore" type="button">Restore the nine words</button></div><p id="savedNotice" role="status"></p></details>
+    <footer class="foot">Made for happy little learners. No ads, no sign-in, and no microphone recording.<br>On some Amazon Kids browsers, built-in spoken audio may be unavailable; test sound on the device first.</footer>
+  </main>
+<script>
+(()=>{
+  'use strict';
+  const DEFAULT=['that','the','of','you','my','in','to','is','and'];
+  const $=s=>document.querySelector(s);
+  const els={word:$('#word'),counter:$('#counter'),stars:$('#stars'),fill:$('#fill'),track:$('#track'),prompt:$('#prompt'),modeLabel:$('#modeLabel'),grid:$('#grid'),learn:$('#learnMode'),quiz:$('#quizMode'),hear:$('#hear'),slow:$('#slow'),reveal:$('#reveal'),done:$('#done'),next:$('#next'),prev:$('#prev'),again:$('#again'),list:$('#list'),save:$('#saveWords'),restore:$('#restore'),notice:$('#savedNotice'),status:$('#status'),support:$('#support')};
+  let words=DEFAULT.slice(),position=0,mode='learn',revealed=true,completed=new Set();
+  try{const saved=JSON.parse(localStorage.getItem('my-word-garden-words')||'null');if(Array.isArray(saved)&&saved.length&&saved.every(w=>typeof w==='string'))words=saved.slice(0,30)}catch(e){}
+  els.list.value=words.join(', ');
+  function chooseVoice(){if(!('speechSynthesis' in window))return null;const v=window.speechSynthesis.getVoices();return v.find(x=>x.lang==='en-US'&&/female|samantha|zira|ava|jenny|google us english/i.test(x.name))||v.find(x=>x.lang==='en-US')||v.find(x=>x.lang.toLowerCase().startsWith('en'))||null}
+  function say(word,rate=0.86){
+    if(!('speechSynthesis' in window)||!('SpeechSynthesisUtterance' in window)){els.support.style.display='block';els.status.textContent='This browser cannot speak words aloud.';return}
+    try{window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(word);u.lang='en-US';u.rate=rate;u.pitch=1.06;const voice=chooseVoice();if(voice)u.voice=voice;u.onerror=()=>{els.status.textContent='Audio was not available. Check tablet sound settings or try Chrome.';els.support.style.display='block'};window.speechSynthesis.speak(u);els.status.textContent=rate<.7?'Listen to the slow pronunciation.':'Now say the word out loud!'}catch(e){els.support.style.display='block';els.status.textContent='Speech is not available on this browser.'}
+  }
+  function render(){
+    const index=Math.max(0,Math.min(position,words.length-1));position=index;const current=words[index];const count=completed.size;
+    els.counter.textContent=`Word ${index+1} of ${words.length}`;els.stars.textContent=`${count} of ${words.length} practiced ⭐`;
+    const percent=Math.round(100*count/words.length);els.fill.style.width=percent+'%';els.track.setAttribute('aria-valuemax',String(words.length));els.track.setAttribute('aria-valuenow',String(count));
+    const show=mode==='learn'||revealed;els.word.textContent=show?current:'? ? ?';els.word.classList.toggle('hidden-word',!show);els.modeLabel.textContent=mode==='learn'?'Look, listen, repeat!':'Can you guess the hidden word?';els.prompt.textContent=mode==='learn'?'Tap the purple button to hear this word.':(revealed?'You found it! Say the word out loud.':'Listen to the word, say it, then reveal it!');
+    els.reveal.hidden=mode==='learn'||revealed;els.done.textContent=completed.has(index)?'✅ Practiced!':'⭐ I said it!';els.learn.classList.toggle('active',mode==='learn');els.quiz.classList.toggle('active',mode==='quiz');els.learn.setAttribute('aria-pressed',String(mode==='learn'));els.quiz.setAttribute('aria-pressed',String(mode==='quiz'));
+    els.grid.innerHTML='';words.forEach((w,i)=>{const b=document.createElement('button');b.type='button';b.className='tile'+(i===index?' selected':'')+(completed.has(i)?' done':'');b.setAttribute('aria-label',`Practice the word ${w}`);b.textContent=w;const small=document.createElement('small');small.textContent=String(i+1);b.append(small);b.addEventListener('click',()=>{position=i;revealed=mode==='learn';render();say(w)});els.grid.append(b)});
+  }
+  const update=i=>{position=(i+words.length)%words.length;revealed=mode==='learn';render();els.status.textContent='Tap Hear the word to listen.'};
+  els.hear.addEventListener('click',()=>say(words[position]));els.slow.addEventListener('click',()=>say(words[position],.62));
+  els.reveal.addEventListener('click',()=>{revealed=true;render();say(words[position])});
+  els.done.addEventListener('click',()=>{completed.add(position);render();els.status.textContent=completed.size===words.length?'Amazing! You practiced every word! 🎉':'Great job! Keep going! 🌟'});
+  els.next.addEventListener('click',()=>update(position+1));els.prev.addEventListener('click',()=>update(position-1));els.again.addEventListener('click',()=>{completed.clear();update(0);els.status.textContent='Fresh start! You can do it!'});
+  els.learn.addEventListener('click',()=>{mode='learn';revealed=true;render()});els.quiz.addEventListener('click',()=>{mode='quiz';revealed=false;render();els.status.textContent='Press Hear the word, say what you hear, then reveal it.'});
+  function setWords(list){words=list;position=0;completed.clear();revealed=mode==='learn';try{localStorage.setItem('my-word-garden-words',JSON.stringify(words));els.notice.textContent='Saved on this device!'}catch(e){els.notice.textContent='Words updated for this session. This browser does not allow saving.'}els.list.value=words.join(', ');render()}
+  els.save.addEventListener('click',()=>{const list=els.list.value.split(/[,;\n]+/).map(x=>x.trim().replace(/\s+/g,' ')).filter(Boolean).slice(0,30);if(!list.length){els.notice.textContent='Please enter at least one word.';return}setWords(list)});
+  els.restore.addEventListener('click',()=>setWords(DEFAULT.slice()));
+  if(!('speechSynthesis' in window))els.support.style.display='block';
+  render();
+})();
+</script>
+</body>
+</html>
